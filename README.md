@@ -10,3 +10,6 @@ MONGO_PWD=campus2023
 MONGO_HOST=172.16.102.18
 MONGO_PORT=27017
 MONGO_DB_NAME=exagonal
+
+
+mongodb://root:campus2023@localhost:27017/
