@@ -1,6 +1,7 @@
 // Gestiona las peticiones HTTP y las respuestas, delegando la lógica de negocio a los servicios.
 const { validationResult } = require('express-validator');
 const UserService = require('../services/userService');
+const bcrypt = require("bcryptjs")
 
 class UserController {
     constructor() {
@@ -23,8 +24,14 @@ class UserController {
         try {
             const errors = validationResult(req);
             if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+            
+            let pwd = await bcrypt.hash(req.body.password, 10)
+
+            req.body.password = pwd
+
             const user = await this.userService.createUser(req.body);
             res.status(201).json(user);
+
         } catch (error) {
             const errorObj = JSON.parse(error.message);
             res.status(errorObj.status).json({ message: errorObj.message });

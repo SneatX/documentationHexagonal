@@ -9,6 +9,7 @@ class UserValidator {
             body('nick').notEmpty().isString().withMessage('Send the nickname you will have in the system'),
             body('email').notEmpty().isEmail().withMessage('Send the email'),
             body('phone').isString().withMessage('Send the phone'),
+            body('password').isString().notEmpty().isLength({ min: 8 }).withMessage("Send a password with min 8 caracters"),
             body('role', 'The role was not sent').notEmpty().exists().custom((value) => {
                 if (value && !['Usuario Estandar', 'Usuario VIP', 'Administrador'].includes(value)) {
                     throw new Error(`There are only three roles available 'Usuario Estandar', 'Usuario VIP', 'Administrador'`);
@@ -65,7 +66,7 @@ class UserValidator {
     };
 
     validateUserUpdateDataById = () => {
-        return [   
+        return [
             body('cedula').notEmpty().isNumeric().withMessage('The cedula is mandatory'),
             body('names').notEmpty().isString().withMessage('The name is mandatory'),
             body('surnames').isString().withMessage('send the last name'),
