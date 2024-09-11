@@ -20,6 +20,16 @@ class UserRepository {
         }
     }
 
+    async getUserByNick(nick){
+        try {
+            const userModel = new User();
+            let user = await userModel.getUserByNick(nick);
+            return user
+        } catch (error) {
+            throw new Error(JSON.stringify({status: 500, message: 'Error saving user'}));
+        }
+    }
+
     async updateById(id, updateData) {
         try {
             const user = new User();

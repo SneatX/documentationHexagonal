@@ -9,6 +9,7 @@ const userValidator = new UserValidator();
 
 router.get('/:id', userValidator.validateUserId(), (req, res) => userController.getUser(req, res));
 router.post('/', userValidator.validateUserData(), (req, res) => userController.createUser(req, res));
+router.post('/login', userValidator.validateUserLogin(), (req, res) => userController.verifyUser(req, res));
 
 // router.put('/:id', userValidator.validateUserUpdateDataById(), (req, res) => userController.updateUser(req, res));
 // router.delete('/:id', userValidator.validateUserId(), (req, res) => userController.deleteUser(req, res));

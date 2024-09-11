@@ -20,6 +20,24 @@ class UserController {
         }
     }
 
+    async verifyUser(req, res) {
+        try{
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+            const user = await this.userService.verifyUserByNick(req.body)
+
+            const isMatch = await bcrypt.compare(req.body.password, user.password)
+            if(!isMatch) throw new Error(JSON.stringify({status: 401, message: 'contraseña incorrecta'}));
+
+            
+
+        } catch (error) {
+            const errorObj = JSON.parse(error.message);
+            res.status(errorObj.status).json({ message: errorObj.message });
+        }
+    }
+
     async createUser(req, res) {
         try {
             const errors = validationResult(req);
