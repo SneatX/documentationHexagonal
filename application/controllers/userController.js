@@ -32,8 +32,9 @@ class UserController {
             delete user.password
             delete user._id
             
-            const token = jwt.sign({user}, process.env.JWT_SECRET, {expiresIn: "60s"})
-            res.status(200).json(token);
+            const token = jwt.sign({user}, process.env.JWT_SECRET, {expiresIn: `${process.env.EXPRESS_EXPIRE}ms`})
+            req.session.token = `Bearer ${token}`
+            res.status(200).json({message: "logueado", token});
 
         } catch (error) {
             const errorObj = JSON.parse(error.message);

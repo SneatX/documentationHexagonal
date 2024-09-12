@@ -3,13 +3,14 @@ const express = require('express');
 const UserController = require('../controllers/userController');
 const UserValidator = require('../validator/userValidator');
 const { authenticateToken } = require('../middlewares/authToken');
+const sessionAuth = require("../middlewares/sessionLogin")
 
 const router = express.Router();
 const userController = new UserController();
 const userValidator = new UserValidator();
 
 router.post('/', userValidator.validateUserData(), (req, res) => userController.createUser(req, res));
-router.post('/login', userValidator.validateUserLogin(), (req, res) => userController.verifyUser(req, res));
+router.post('/login', sessionAuth, userValidator.validateUserLogin(), (req, res) => userController.verifyUser(req, res));
 
 router.get('/:id',authenticateToken,  userValidator.validateUserId(), (req, res) => userController.getUser(req, res));
 // router.put('/:id', userValidator.validateUserUpdateDataById(), (req, res) => userController.updateUser(req, res));
