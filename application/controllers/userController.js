@@ -2,7 +2,7 @@
 const { validationResult } = require('express-validator');
 const UserService = require('../services/userService');
 const bcrypt = require("bcryptjs")
-
+const jwt = require("jsonwebtoken")
 class UserController {
     constructor() {
         this.userService = new UserService();
@@ -26,11 +26,14 @@ class UserController {
             if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
 
             const user = await this.userService.verifyUserByNick(req.body)
-
             const isMatch = await bcrypt.compare(req.body.password, user.password)
             if(!isMatch) throw new Error(JSON.stringify({status: 401, message: 'contraseña incorrecta'}));
 
+            delete user.password
+            delete user._id
             
+            const token = jwt.sign({user}, process.env.JWT_SECRET, {expiresIn: "60s"})
+            res.status(200).json(token);
 
         } catch (error) {
             const errorObj = JSON.parse(error.message);
