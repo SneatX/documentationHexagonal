@@ -5,7 +5,7 @@ exports.authenticateToken = (req, res, next) => {
     const token = authHeader && authHeader.split(" ")[1]
     if(!token) return res.status(401).json({message: "Token no proporcionado"})
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, payload) => {
+    jwt.verify(token, process.env.SECRET_KEY, (err, payload) => {
         if(err) return res.status(403).json({message: "Token invalido"})
         console.log(payload)
         next()

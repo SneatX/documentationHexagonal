@@ -32,7 +32,7 @@ class UserController {
             delete user.password
             delete user._id
             
-            const token = jwt.sign({user}, process.env.JWT_SECRET, {expiresIn: `${process.env.EXPRESS_EXPIRE}ms`})
+            const token = jwt.sign({user}, process.env.SECRET_KEY, {expiresIn: `${process.env.EXPRESS_EXPIRE}ms`})
             req.session.token = `Bearer ${token}`
             res.status(200).json({message: "logueado", token});
 
