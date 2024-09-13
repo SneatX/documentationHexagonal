@@ -1,7 +1,7 @@
 const https = require("https")
 const fs = require("fs")
-const ConnectToDatabase = require('./infrastructure/database/mongodb');
-const createServer = require('./infrastructure/server/server');
+const ConnectToDatabase = require('./server/infrastructure/database/mongodb');
+const createServer = require('./server/infrastructure/server/server');
 
 const startApp = async () => {
     let connectToDatabase = new ConnectToDatabase();
